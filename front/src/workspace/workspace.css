@@ -1,0 +1,24 @@
+[id^="alm-workspace-layout"] {
+    padding: 1rem;
+    /*gap: 1rem;*/
+    min-height: calc(100vh - 98px);
+}
+
+[id^="alm-workspace-layout"] div.tab-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+[id^="alm-workspace-layout"] .tab-content > .active {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.alm-workspace {
+    padding: 0.5rem;
+    background-color: #FFFFFF;
+    border-radius: 14px;
+    box-shadow: 0 0 16px 0 rgba(11, 36, 47, 0.3);
+}

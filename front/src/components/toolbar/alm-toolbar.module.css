@@ -1,0 +1,24 @@
+/** Базовый стиль тулбара */
+.alm-toolbar {
+    width: 100%;
+    background-color: #fff;
+    padding: 0;
+}
+
+/** Стиль для отступа слева в каждой строке фильтров тулбара */
+.alm-toolbar > :global(.row) {
+    padding-left: 1rem;
+}
+
+/** Стиль для отступов между фильтрами */
+.alm-toolbar > :global(.row) > * {
+    align-items: center;
+    float: left;
+    margin: 5px;
+    vertical-align: middle;
+}
+
+/** Отдельный стиль для кнопок внутри тулбара, чтобы кнопки располагались вертикально по центру */
+.alm-toolbar > :global(.row > .dx-button) {
+    margin-top: 7px;
+}

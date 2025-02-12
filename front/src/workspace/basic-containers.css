@@ -1,0 +1,71 @@
+/** Стиль для заголовков контейнера, который находится в рабочей области в виде ContainerTitle  */
+.basic-container-title {
+    padding-bottom: 0.5rem;
+    padding-left: 10px;
+    font-family: Trebuchet MS, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.alm-data-grid .dx-gridbase-container {
+    height: auto;
+}
+
+.basic-container-title-main-page.basic-container-title {
+    margin-top: 6rem;
+    padding-bottom: 1.5rem;
+}
+
+/** Стиль для основного контейнера рабочей области */
+.basic-container {
+    margin: 1rem;
+}
+
+/** Стиль для основного контейнера рабочей области для План-Прогноза и Фактической-позиции */
+.basic-container-position {
+    margin: 0;
+    height: calc(100vh - 7rem)
+}
+
+.basic-grid-container {
+    background: #FFFFFF;
+    padding: 10px;
+    box-shadow: 0 0 16px 0 rgba(11, 36, 47, 0.3);
+    border-radius: 14px;
+    height: calc(100vh - 6.1rem);
+}
+
+/**
+    для всех вложенных элементов в грид компонент устанавливаем высоту в 100%,
+    чтобы заполнить всю область grid-container'a
+ */
+.basic-grid-container > * {
+    height: 100%;
+}
+
+/**
+    для грид компонентов вложенных в табы - заголовок таб съедает определенный размер экрана
+ */
+.tab-pane > .basic-grid-container {
+    height: calc(100vh - 10.4rem);
+}
+
+/**
+    для грид компонентов с заголовком и отдельным тулбаром GridParams тоже перерасчитываем высоту
+    т.к заголовок и параметры съедают экран
+ */
+.basic-container-title + .grid-param-container + .basic-grid-container {
+    height: calc(100vh - 14.6rem);
+}
+
+/**
+    для грид компонентов с заголовком тоже перерасчитываем высоту
+    т.к заголовок и параметры съедают экран
+ */
+.basic-container-title + .basic-grid-container {
+    height: calc(100vh - 9.3rem);
+}
+
+.basic-container-title + .basic-grid-container-without-header {
+    height: calc(100vh - 5.1rem);
+}

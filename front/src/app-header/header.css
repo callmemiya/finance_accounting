@@ -1,0 +1,167 @@
+/* Общий стиль для компонента хедера */
+.alm-header {
+    background-color: white;
+    min-height: 66px;
+    width: 100%;
+}
+
+.alm-header > * {
+    font-family: "Gratimo Grotesk", sans-serif;
+    font-size: small;
+}
+
+/* Общий стиль для ГРАНИЦЫ компонента хедера */
+.alm-header-border {
+    border-spacing: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-top: 5px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(
+        90deg,
+        #3537a6 0%,
+        #3537a6 20%,
+        #6537a6 65%,
+        /*#f00 0%,*/
+        /*#f00 20%,*/
+        /*#f5ed53 77%,*/
+        /*#4ddb9b 85%,*/
+        #4ddb9b 75%,
+        #4ddb9b 95%,
+        #fff 100%
+    );
+}
+
+/* Стиль для лого МКБ */
+#alm-header-logo {
+    width: 60px;
+}
+
+/* Стиль для блока с notification, лого профиля и информации о пользователе */
+.alm-header-user {
+    width: 200px;
+}
+
+/* Стиль для лого notification */
+.alm-header-user-notification-logo {
+    height: 20px;
+    cursor: pointer; /* Под лого хранится dropdown list */
+}
+
+.alm-header-circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 100px;
+    margin: auto;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.alm-header-circle.has-error {
+    background: #f00;
+}
+
+.alm-header-circle.has-not-error {
+    background: #008000;
+}
+
+/* Стиль для лого профиля пользователя */
+.alm-header-user-photo {
+    height: 30px;
+    width: 30px;
+    image-rendering: crisp-edges;
+    border-radius: 50%;
+    cursor: pointer; /* Под лого хранится dropdown list */
+}
+
+/* Стиль для dropdown list */
+.alm-header-dropdown {
+    white-space: nowrap;
+    font-size: small;
+}
+
+/* Стиль для Заголовка раздела и Хлебных крошек */
+.alm-header-section-title {
+    font-family: "Gratimo Grotesk", sans-serif;
+    font-weight: normal;
+    font-size: 15px;
+    color: #3537a6 !important;
+    user-select: none;
+}
+
+/* Стиль для ссылок навигации между подразделами */
+.alm-header-nav-link {
+    color: rgb(0 0 0 / 55%);
+    cursor: pointer;
+    font-family: "Gratimo Grotesk", sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+/* Стиль для ссылки навигации, которая в данный момент является активной */
+.alm-header-nav-link.active {
+    border-bottom: 2px solid red;
+    background-color: #fff;
+    color: rgb(0 0 0 / 55%);
+}
+
+/* Стиль для нажатия на ссылку навигации, которая находится в dropdown меню */
+.alm-header-dropdown-nav-link.nav-link {
+    background-color: #fff !important;
+    color: rgb(0 0 0 / 55%) !important;
+}
+
+/* Стиль для цвета текста ссылки навигации, находящейся в dropdown меню, которая в данный момент является активной */
+.alm-header-dropdown-nav-link.nav-link.active {
+    color: rgb(0 0 0 / 90%) !important;
+}
+
+/* Стиль для сдвига dropdown меню вниз */
+.alm-header-dropdown .dropdown-menu[data-bs-popper] {
+    margin-top: 1rem;
+}
+
+/*@font-face {*/
+/*    font-family: "Gratimo Grotesk", sans-serif;*/
+/*    font-style: normal;*/
+/*    src: url("../../../public/css/fonts/SpaceGrotesk-Regular.woff");*/
+/*    font-weight: 400;*/
+/*}*/
+
+/*!* Новые шрифты для СУЛ с разным font-weight *!*/
+/*@font-face {*/
+/*    font-family: Roboto;*/
+/*    font-style: normal;*/
+/*    src: url("../../../public/css/fonts/Roboto-300.woff");*/
+/*    font-weight: 300;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: Roboto;*/
+/*    font-style: normal;*/
+/*    src: url("../../../public/css/fonts/Roboto-400.woff");*/
+/*    font-weight: 400;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: Roboto;*/
+/*    font-style: normal;*/
+/*    src: url("../../../public/css/fonts/Roboto-500.woff");*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: Roboto;*/
+/*    font-style: normal;*/
+/*    src: url("../../../public/css/fonts/Roboto-700.woff");*/
+/*    font-weight: 700;*/
+/*}*/
+
+/** Сокрытие элемента в случае сужения окна до размеров, меньше 900px */
+@media (width <= 900px) {
+    .hide-on-900px {
+        display: none;
+        width: 30%;
+    }
+}

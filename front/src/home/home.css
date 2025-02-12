@@ -1,0 +1,71 @@
+/*.card-home {*/
+/*    max-width: 300px;*/
+/*    margin: 0 auto;*/
+/*    line-height: 1.25;*/
+/*    background-color: #fff;*/
+/*    background-image: none;*/
+/*    background-clip: padding-box;*/
+/*    border: 1px solid rgba(0,0,0,.15);*/
+/*    border-radius: .5rem;*/
+/*    box-sizing: border-box;*/
+/*    height: 240px;*/
+/*    padding: 10px;*/
+/*    font-size: 16px;*/
+/*    text-align: center;*/
+/*    !*vertical-align: bottom;*!*/
+/*}*/
+
+.home-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    background-color: #f5f6f7;
+}
+
+.card-home {
+    /* Auto layout */
+    display: flex;
+    padding: 0 34px;
+    margin-bottom: 32px;
+
+    width: 437px;
+    height: 104px;
+
+    /* UI/Белый */
+    background: #FFFFFF;
+    box-shadow: 0 0 15px #e0e0e0;
+    border-radius: 12px;
+}
+
+.card-img-home {
+    max-width: 35px;
+    max-height: 35px;
+}
+
+.mt-6 {
+    margin-top: 7rem !important;
+}
+
+.card-icon {
+    font-family: Trebuchet MS, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    padding-top: 4px;
+}
+
+.home-link {
+    color: black;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    color: black;
+}
+
+/*.my-border-container {*/
+/*    border: 1px solid green;*/
+/*}*/
+
+/*.my-border-row {*/
+/*    border: 1px solid red;*/
+/*}*/

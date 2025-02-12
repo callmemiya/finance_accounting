@@ -1,0 +1,85 @@
+.grid-param-container {
+    height: 70px;
+    left: 0px;
+    top: 52px;
+
+    margin-bottom: 1rem;
+
+    background: #FFFFFF;
+    box-shadow: 0px 0px 16px 0px rgba(11, 36, 47, 0.3);
+    border-radius: 14px;
+
+    /*border: 1px solid green;*/
+}
+
+.grid-container {
+    background: #FFFFFF;
+
+    padding: 10px;
+    box-shadow: 0px 0px 16px 0px rgba(11, 36, 47, 0.3);
+    border-radius: 14px;
+
+    /*border: 1px solid green;*/
+}
+
+/* Данный кастомный стиль - это workaround для решения проблемы с ограничением размера грида высотой отображаемой области.
+По-хорошему высота должна рассчитываться для MainContainer'а, но в случае когда мы вставляем грид от devexpress внутрь
+компонента с панелью закладок (Tabs) от bootstrap у нас перестает работать стандартная настройка грида с
+указаанием 100% высоты.
+ */
+.grid-custom-height {
+    height: calc(100vh - 13rem);
+}
+
+/**
+ Данный стиль используется для гридов в СУЛ над которыми нет закладок
+ */
+.grid-sul-without-tabs-custom-height {
+    height: calc(100vh - 9rem);
+}
+
+/* Для заголовка грида убираем отступ от левого и от правого края, чтобы панель была впритык к краю */
+div.dx-treelist-header-panel {
+    padding-left: 0;
+    padding-right: 0;
+}
+div.dx-datagrid-header-panel {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Убираем лишнюю границу под строкой с заголовками */
+.dx-datagrid-headers .dx-datagrid-table .dx-row > td {
+    border-bottom: 0;
+}
+
+/* Для ячейки грида, содержащей кнопку, уменьшаем значения padding (top и bottom),
+чтобы кнопка не увеличивала высоту строки */
+.dx-datagrid .dx-row > td.datagrid-row-button {
+    padding: 0 5px;
+}
+
+/* Принудительный перенос длинных значений в заголовках и ячейках для вместимости в заданную ширину */
+.dx-datagrid {
+    word-wrap: break-word;
+}
+
+/* Изменение глобальных стилей, чтобы значки с фильтрами были выровнены по правому краю*/
+.dx-header-row .dx-header-filter-indicator, .dx-header-row .dx-sort-indicator {
+    max-width: calc(100% - 33px) !important;
+}
+
+div.dx-column-indicators {
+    float: right !important;
+}
+
+/* Изменяем цвет подсветки выделенных строк в гриде - напрямую связанн с Devextreme Selection API*/
+.dx-treelist-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
+    background-color: orange;
+    color: unset;
+}
+/* ---- end для изменения глобальных стилей со значками ----*/
+
+.cell-selected {
+    background-color: orange;
+}

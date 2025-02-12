@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_06_create_table_goals.xml">
+
+    <changeSet id="create-sequence-goals" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="goals_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="goals_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы goals</comment>
+    </changeSet>
+
+    <changeSet id="create-table-goals" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="goals"/>
+            </not>
+        </preConditions>
+        <createTable tableName="goals">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="goals_seq"
+                    remarks="Уникальный идентификатор цели">
+                <constraints primaryKey="true" primaryKeyName="goals_pk"/>
+            </column>
+            <column name="user_id" type="${datatype.id}" remarks="Идентификатор пользователя, установившего цель">
+                <constraints references="users(id)" foreignKeyName="goals_2_users_fk" nullable="false"/>
+            </column>
+            <column name="goal_name" type="varchar2(255 ${char})" remarks="Название цели">
+                <constraints unique="true" uniqueConstraintName="goal_name_uk" nullable="false"/>
+            </column>
+            <column name="target_amount" type="${datatype.money}" remarks="Целевая сумма для достижения">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_amount" type="${datatype.money}"
+                    remarks="Текущая сумма, накопленная на достижение цели">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deadline" type="timestamp" remarks="Срок достижения цели">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

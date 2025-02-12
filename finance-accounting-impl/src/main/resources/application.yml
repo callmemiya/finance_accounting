@@ -1,0 +1,55 @@
+server.port: 8088
+
+spring:
+  application.name: ^project.parent.artifactId^
+  liquibase:
+    contexts: prod
+    change-log: classpath:db/changelog/changelog.xml
+  main.allow-bean-definition-overriding: true
+  datasource:
+    url:
+    username: finance_acc
+    password:
+    init:
+      continue-on-error: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+    format:
+      date: iso
+      date-time: iso
+
+#server:
+#  servlet:
+#    context-path: /${spring.application.name}
+
+springdoc:
+  packagesToScan: ru.nirs.controller
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+    path: /nirs/swagger-ui.html
+    disable-swagger-default-url: true
+  api-docs:
+    path: /nirs/v1/api-docs
+
+management:
+  health.dataSourceIndicator.enabled: true
+  endpoints.web:
+    exposure.include: info,health,metrics,prometheus,httptrace
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET
+  endpoint.health:
+    show-details: always
+    probes.enabled: true
+  info.git.mode: full
+
+logging:
+  level:
+    org.springframework: INFO
+    ru.nirs: INFO
+    liquibase: INFO
+
+service:
+  security:
+    unprotected: "/swagger-ui/**,/v3/api-docs/**,/actuator/**,/websocket,/sockjs"

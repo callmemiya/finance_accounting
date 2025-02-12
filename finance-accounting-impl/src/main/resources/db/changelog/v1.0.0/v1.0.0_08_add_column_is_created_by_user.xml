@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_08_add_column_is_created_by_user.xml">
+
+    <changeSet id="add_column_category_substring" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="categories"/>
+        </preConditions>
+        <addColumn tableName="categories">
+            <column name="is_created_by_user" type="varchar2(400 ${char})" remarks="Признак, что категория создана пользователем"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

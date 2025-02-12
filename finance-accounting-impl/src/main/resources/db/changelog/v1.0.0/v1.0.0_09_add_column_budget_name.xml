@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_09_add_column_is_budget_name.xml">
+
+    <changeSet id="add_column_budget_name" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="budgets" columnName="budget_name"/>
+        </preConditions>
+        <addColumn tableName="budgets">
+            <column name="budget_name" type="varchar2(100 ${char})" remarks="Наименование бюджета"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

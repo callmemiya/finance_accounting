@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_03_create_table_categories.xml">
+
+    <changeSet id="create-sequence-categories" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="categories_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="categories_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы categories</comment>
+    </changeSet>
+
+    <changeSet id="create-table-categories" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="categories"/>
+            </not>
+        </preConditions>
+        <createTable tableName="categories">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="categories_seq"
+                    remarks="Уникальный идентификатор категории">
+                <constraints primaryKey="true" primaryKeyName="categories_pk"/>
+            </column>
+            <column name="category_name" type="varchar2(255 ${char})" remarks="Название категории">
+                <constraints unique="true" uniqueConstraintName="category_name_uk" nullable="false"/>
+            </column>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

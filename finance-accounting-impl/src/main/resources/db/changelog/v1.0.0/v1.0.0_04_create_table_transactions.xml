@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_04_create_table_transactions.xml">
+
+    <changeSet id="create-sequence-transactions" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="transactions_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="transactions_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы transactions</comment>
+    </changeSet>
+
+    <changeSet id="create-table-transactions" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="transactions"/>
+            </not>
+        </preConditions>
+        <createTable tableName="transactions">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="transactions_seq"
+                    remarks="Уникальный идентификатор транзакции">
+                <constraints primaryKey="true" primaryKeyName="transactions_pk"/>
+            </column>
+            <column name="account_id" type="${datatype.id}"
+                    remarks="Идентификатор счета, по которому проходит транзакция">
+                <constraints references="accounts(id)" foreignKeyName="accounts_2_transactions_fk" nullable="false"/>
+            </column>
+            <column name="category_id" type="${datatype.id}"
+                    remarks="Идентификатор категории, к которой относится транзакция">
+                <constraints references="categories(id)" foreignKeyName="categories_2_transactions_fk"
+                             nullable="false"/>
+            </column>
+            <column name="status" type="varchar2(15 ${char})" remarks="Статус">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="${datatype.money}" remarks="Сумма транзакции">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cashback" type="${datatype.money}" remarks="Кэшбек"/>
+            <column name="transaction_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP"
+                    remarks="Дата совершения транзакции">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar2(255 ${char})" remarks="Описание транзакции"/>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zmp" id="add-transactions-uk">
+        <addUniqueConstraint tableName="transactions" columnNames="transaction_date, amount, status" constraintName="transactions_uk"/>
+    </changeSet>
+</databaseChangeLog>

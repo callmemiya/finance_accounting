@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_01_create_table_users.xml">
+
+    <changeSet id="create-sequence-users" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="users_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="users_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы users</comment>
+    </changeSet>
+
+    <changeSet id="create_table_users" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="users_seq"
+                    remarks="Уникальный идентификатор пользователя">
+                <constraints primaryKey="true" primaryKeyName="users_pk"/>
+            </column>
+            <column name="username" type="varchar2(255 ${char})" remarks="Имя пользователя">
+                <constraints unique="true" uniqueConstraintName="username_uk" nullable="false"/>
+            </column>
+            <column name="password_hash" type="varchar2(255 ${char})" remarks="Хеш пароля">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar2(255 ${char})" remarks="Электронная почта пользователя"/>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="drop-users_seq" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="users_seq"/>
+        </preConditions>
+        <dropSequence sequenceName="users_seq"/>
+        <comment>Удаляем последовательность идентификаторов пользователей</comment>
+    </changeSet>
+
+    <changeSet id="load-empty-user" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
+        </preConditions>
+        <loadData tableName="users"
+                  file="db/changelog/v1.0.0/load-data/v1.0.0_01_load_empty_user.csv">
+        </loadData>
+        <comment>Загружаем пустого пользователя в таблицу users</comment>
+    </changeSet>
+
+    <changeSet author="zmp" id="recreate-sequence-for-users_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="users_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="users_seq" startValue="2"/>
+        <addDefaultValue tableName="users" columnName="id" defaultValueSequenceNext="users_seq"/>
+        <comment>Пересоздаем последовательность идентификаторов для таблицы users</comment>
+    </changeSet>
+
+</databaseChangeLog>

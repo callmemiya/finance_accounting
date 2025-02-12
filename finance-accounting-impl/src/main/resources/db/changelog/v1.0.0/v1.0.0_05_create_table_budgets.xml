@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_05_create_table_budgets.xml">
+
+    <changeSet id="create-sequence-budgets" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="budgets_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="budgets_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы budgets</comment>
+    </changeSet>
+
+    <changeSet id="create-table-budgets" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="budgets"/>
+            </not>
+        </preConditions>
+        <createTable tableName="budgets">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="budgets_seq"
+                    remarks="Уникальный идентификатор бюджета">
+                <constraints primaryKey="true" primaryKeyName="budgets_pk"/>
+            </column>
+            <column name="user_id" type="${datatype.id}" remarks="Идентификатор пользователя, который установил бюджет">
+                <constraints references="users(id)" foreignKeyName="users_2_budgets_fk" nullable="false"/>
+            </column>
+            <column name="category_id" type="${datatype.id}"
+                    remarks="Идентификатор категории, на которую установлен бюджет">
+                <constraints references="categories(id)" foreignKeyName="categories_2_budgets_fk" nullable="false"/>
+            </column>
+            <column name="amount" type="${datatype.money}" remarks="Запланированная сумма бюджета">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="timestamp" remarks="Начало периода бюджета">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP"
+                    remarks="Конец периода бюджета">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

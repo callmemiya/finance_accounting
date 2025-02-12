@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="changelog.xml">
+
+    <!-- Общие типы данных -->
+    <property name="datatype.id" value="number(38)"/>
+    <property name="datatype.money" value="number(25,4)"/>
+    <property name="char" value="CHAR" dbms="oracle"/>
+    <property name="char" value=""/>
+
+    <!-- finance_acc -->
+    <include file="v1.0.0/cumulative_v1.0.0.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

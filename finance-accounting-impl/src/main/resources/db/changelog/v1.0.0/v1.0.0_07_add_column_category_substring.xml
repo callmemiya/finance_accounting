@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_07_add_column_category_substring.xml">
+
+    <changeSet id="add_column_category_substring" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="categories"/>
+        </preConditions>
+        <addColumn tableName="categories">
+            <column name="category_substrings" type="varchar2(400 ${char})" remarks="Массив подстрок описания категории"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

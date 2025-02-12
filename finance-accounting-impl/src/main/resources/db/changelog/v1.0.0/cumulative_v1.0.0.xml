@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="cumulative_v1.0.0.xml">
+
+    <include file="v1.0.0_01_create_table_users.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_02_create_table_accounts.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_03_create_table_categories.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_04_create_table_transactions.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_05_create_table_budgets.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_06_create_table_goals.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_07_add_column_category_substring.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_08_add_column_is_created_by_user.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

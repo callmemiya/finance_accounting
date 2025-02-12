@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_02_create_table_accounts.xml">
+
+    <changeSet id="create-sequence-accounts" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="accounts_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="accounts_seq" startValue="1"/>
+        <comment>Создание последовательности идентификаторов для таблицы accounts</comment>
+    </changeSet>
+
+    <changeSet id="create-table-accounts" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="accounts"/>
+            </not>
+        </preConditions>
+        <createTable tableName="accounts">
+            <column name="id" type="${datatype.id}" defaultValueSequenceNext="accounts_seq"
+                    remarks="Уникальный идентификатор счета">
+                <constraints primaryKey="true" primaryKeyName="accounts_pk"/>
+            </column>
+            <column name="user_id" type="${datatype.id}"
+                    remarks="Идентификатор пользователя, которому принадлежит счет">
+                <constraints references="users(id)" foreignKeyName="users_2_accounts_fk" nullable="false"/>
+            </column>
+            <column name="account_name" type="varchar2(255 ${char})" remarks="Название счета">
+                <constraints unique="true" uniqueConstraintName="account_name_uk" nullable="false"/>
+            </column>
+            <column name="balance" type="${datatype.money}" remarks="Текущий баланс счета"/>
+            <column name="currency" type="varchar2(3 ${char})" remarks="Валюта счета">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Tech fields -->
+            <column name="created" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время создания (UTC)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" remarks="Технические дата и время изменения (UTC)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="drop-accounts_seq" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="accounts_seq"/>
+        </preConditions>
+        <dropSequence sequenceName="accounts_seq"/>
+        <comment>Удаляем последовательность идентификаторов аккаунтов</comment>
+    </changeSet>
+
+    <changeSet id="load-empty-accounts" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="accounts"/>
+        </preConditions>
+        <loadData tableName="accounts"
+                  file="db/changelog/v1.0.0/load-data/v1.0.0_02_load_empty_account.csv">
+        </loadData>
+        <comment>Загружаем пустой аккаунт в таблицу accounts</comment>
+    </changeSet>
+
+    <changeSet author="zmp" id="recreate-sequence-for-accounts_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="accounts_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="accounts_seq" startValue="2"/>
+        <addDefaultValue tableName="accounts" columnName="id" defaultValueSequenceNext="accounts_seq"/>
+        <comment>Пересоздаем последовательность идентификаторов для таблицы accounts</comment>
+    </changeSet>
+
+</databaseChangeLog>

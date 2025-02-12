@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- Exclude Test Sources -->
+    <suppress checks="LineLength" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+    <suppress checks="ConstantName" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+    <suppress checks="HideUtilityClassConstructor" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+    <suppress checks="SummaryJavadoc" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+    <suppress checks="MissingJavadocType" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+
+    <!-- Exclude *Application.java -->
+    <suppress checks="HideUtilityClassConstructor" files=".*Application.java"/>
+    <suppress checks="MissingJavadocType" files=".*Application.java"/>
+</suppressions>

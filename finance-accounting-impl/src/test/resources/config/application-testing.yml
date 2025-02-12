@@ -1,0 +1,16 @@
+spring:
+  liquibase:
+    contexts: test
+    parameters:
+      store.dictionary.include: DICT_CURRENCY, DICT_COUNTERPARTY
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;Mode=Oracle;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: alm_qort
+logging:
+  level:
+    org.springframework: DEBUG
+alm:
+  audit:
+    aspect: false
+    listener: false

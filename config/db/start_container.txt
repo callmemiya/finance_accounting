@@ -1,0 +1,2 @@
+Script for creating and start docker-container for database
+docker run --name finance -e POSTGRES_USER=finance_acc -e POSTGRES_PASSWORD=finance_acc -p 5432:5432 -d postgres

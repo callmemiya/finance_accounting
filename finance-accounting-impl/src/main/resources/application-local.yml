@@ -1,0 +1,27 @@
+/spring:
+  h2.console.enabled: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:/tmp/finance_acc;Mode=Oracle;AUTO_SERVER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE   # in-file (persistence data after app is restarted)
+    username: finance_acc
+    hikari.maximum-pool-size: 5
+  liquibase:
+    contexts: test
+    user: finance_acc
+
+management:
+  health:
+    dataSourceIndicator:
+      enabled: false
+
+#отключение проверки токена, аутентификации и авторизации
+jwtfilter:
+  auth:
+    starter:
+      tokenFilter:
+        enabled: false
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+    ru.nirs: DEBUG

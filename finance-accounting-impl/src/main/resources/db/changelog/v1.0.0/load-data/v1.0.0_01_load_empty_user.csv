@@ -1,0 +1,2 @@
+id,username,password_hash,email,created,modified
+1,EMPTY,$2a$10$z46C2K48mw2ox/pQJolKC.8iQXCnEBbPYYc7OXmrNqO2Wa8wDCWcS,empty,2024-05-12T00:00:00,2024-05-12T00:00:00

@@ -7,12 +7,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.nirs.dto.TransactionDto;
+import ru.nirs.dto.JoinTransactionsRequestDto;
 import ru.nirs.entity.TransactionProjection;
 import ru.nirs.mapper.TransactionMapper;
 import ru.nirs.dto.TransactionProjectionDto;
 import ru.nirs.service.ExcelParserService;
 import ru.nirs.service.TransactionService;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,6 +57,12 @@ public class TransactionController {
     public Long create(@Parameter(description = "Данные для создания транзакции", required = true)
                            @RequestBody TransactionDto transactionDto) {
         return transactionService.create(TransactionMapper.INSTANCE.toEntity(transactionDto));
+    }
+
+    @PostMapping("/join")
+    public void joinTransactions(@Parameter(description = "Данные для объединения транзакций", required = true)
+                                @Valid @RequestBody JoinTransactionsRequestDto request) {
+        transactionService.joinTransactions(request.getTransactionIds(), request.getCategoryId(), request.getDescription());
     }
 
     @PutMapping()

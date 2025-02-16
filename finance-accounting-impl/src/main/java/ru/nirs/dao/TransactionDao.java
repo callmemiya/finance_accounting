@@ -109,6 +109,12 @@ public interface TransactionDao extends CrudRepository<Transaction, Long> {
     boolean updateTransactionCategoryByCategorySubstrings(List<String> categorySubstrings, Long categoryId);
 
     @Modifying
+    @Query("UPDATE transactions " +
+            "SET is_joined = :isJoined " +
+            "WHERE id in (:transactionIds) ")
+    boolean updateIsJoinedByTransactionId(Boolean isJoined, List<Long> transactionIds);
+
+    @Modifying
     @Query("delete from transactions where id = :id")
     Long deleteByTransactionId(Long id);
 

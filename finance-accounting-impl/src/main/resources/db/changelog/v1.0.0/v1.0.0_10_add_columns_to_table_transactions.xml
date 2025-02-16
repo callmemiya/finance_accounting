@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   logicalFilePath="v1.0.0_10_add_columns_to_table_transactions.xml">
+
+    <changeSet id="add_columns_is_joined_and_joined_transactions" author="zmp">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="transactions"/>
+        </preConditions>
+        <addColumn tableName="transactions">
+            <column name="is_joined" type="boolean" defaultValue="false" remarks="Признак, что транзакция является объединённой">
+                <constraints nullable="false"/>
+            </column>
+            <column name="joined_transactions" type="varchar2(200 ${char})" remarks="Объединённые транзакции"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

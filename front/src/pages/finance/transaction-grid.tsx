@@ -1,7 +1,7 @@
 import {TransactionDto} from "../../dto/TransactionDto";
 import TransactionService from "../../service/TransactionService";
 import {useEffect, useState} from "react";
-import {Column, Item, Toolbar} from "devextreme-react/data-grid";
+import {Column, Item, Toolbar, Selection} from "devextreme-react/data-grid";
 import "../table-page.css";
 import {Workspace} from "../../workspace/Workspace";
 import CustomDataGrid from "../../components/data-grid/CustomDataGrid";
@@ -12,6 +12,7 @@ import CategoryService from "../../service/CategoryService";
 import {CategoryDto} from "../../dto/CategoryDto";
 import {startOfDay, startOfToday} from "date-fns";
 import {Row} from "react-bootstrap";
+import {JoinTransactionsModal} from "./join-transactions-modal";
 
 export type TransactionProps = {
 }
@@ -23,6 +24,9 @@ export type TransactionState = {
     category?: number;
     categories: CategoryDto[];
     sumOfTransactions?: number;
+    isJoinMode: boolean;
+    selectedTransactionIds: number[];
+    showJoinModal: boolean;
 }
 
 const START_WITH_YEAR_NO_SECONDS = "yyyy.MM.dd HH:mm";
@@ -38,6 +42,9 @@ export const TransactionGrid = (props: TransactionProps) => {
         category: undefined,
         categories: [],
         sumOfTransactions: undefined,
+        isJoinMode: false,
+        selectedTransactionIds: [],
+        showJoinModal: false
     });
 
     useEffect(() => {
@@ -107,11 +114,65 @@ export const TransactionGrid = (props: TransactionProps) => {
         setState(prevState => ({...prevState, category: category}));
     }
 
+    const toggleJoinMode = () => {
+        setState(prevState => ({
+            ...prevState,
+            isJoinMode: !prevState.isJoinMode,
+            selectedTransactionIds: [],
+            showJoinModal: false
+        }));
+    }
+
+    const onSelectionChanged = (e: any) => {
+        setState(prevState => ({
+            ...prevState,
+            selectedTransactionIds: e.selectedRowKeys
+        }));
+    }
+
+    const handleJoinClick = () => {
+        if (state.selectedTransactionIds.length < 2) {
+            alert('Пожалуйста, выберите минимум 2 транзакции для объединения');
+            return;
+        }
+        setState(prevState => ({...prevState, showJoinModal: true}));
+    }
+
+    const handleJoinModalHide = () => {
+        setState(prevState => ({...prevState, showJoinModal: false}));
+    }
+
+    const handleJoinModalSave = async (categoryId: number, description: string) => {
+        try {
+            await service.joinTransactions(state.selectedTransactionIds, categoryId, description);
+            setState(prevState => ({
+                ...prevState,
+                isJoinMode: false,
+                selectedTransactionIds: [],
+                showJoinModal: false
+            }));
+            load(); // Перезагружаем данные после объединения
+        } catch (error) {
+            alert('Произошла ошибка при объединении транзакций');
+        }
+    }
+
+    const getSelectedTransactions = (): TransactionDto[] => {
+        if (!state.data) return [];
+        return state.data.filter(transaction => 
+            state.selectedTransactionIds.includes(transaction.id)
+        );
+    }
+
     return <>
         <CustomDataGrid
             dataSource={state.data}
             className={"sul-padding filter-icon"}
+            selection={{ mode: state.isJoinMode ? 'multiple' : 'none' }}
+            onSelectionChanged={onSelectionChanged}
+            keyExpr="id"
         >
+            <Selection mode={state.isJoinMode ? 'multiple' : 'none'} />
             <Toolbar>
                 <Item location="before">
                     <DateBox value={state.dateFrom}
@@ -141,7 +202,7 @@ export const TransactionGrid = (props: TransactionProps) => {
                                valueExpr="id"
                                dataSource={state.categories}
                                onValueChanged={e => onCategoryChanged(e.value)}
-                        />
+                    />
                 </Item>
                 <Item location="before">
                     <Button
@@ -150,6 +211,14 @@ export const TransactionGrid = (props: TransactionProps) => {
                         type="danger"
                         stylingMode="contained"
                         onClick={load}/>
+                </Item>
+                <Item location="before">
+                    <Button
+                        width={200}
+                        text="Объединение"
+                        type={state.isJoinMode ? "success" : "normal"}
+                        stylingMode="contained"
+                        onClick={toggleJoinMode}/>
                 </Item>
             </Toolbar>
             <Column caption="ID" dataField="id"/>
@@ -173,6 +242,33 @@ export const TransactionGrid = (props: TransactionProps) => {
                 {state.sumOfTransactions?.toFixed(2)}
             </div>
         </Row>
-        </>
+        {state.isJoinMode && (
+            <Row className="mt-3 ms-1">
+                <Button
+                    width={200}
+                    text="Объединить"
+                    type="success"
+                    stylingMode="contained"
+                    onClick={handleJoinClick}
+                    disabled={state.selectedTransactionIds.length < 2}
+                    className="me-2"
+                />
+                <Button
+                    width={200}
+                    text="Отмена"
+                    type="normal"
+                    stylingMode="contained"
+                    onClick={toggleJoinMode}
+                />
+            </Row>
+        )}
 
+        <JoinTransactionsModal
+            show={state.showJoinModal}
+            onHide={handleJoinModalHide}
+            onSave={handleJoinModalSave}
+            selectedTransactions={getSelectedTransactions()}
+            categories={state.categories}
+        />
+    </>
 }

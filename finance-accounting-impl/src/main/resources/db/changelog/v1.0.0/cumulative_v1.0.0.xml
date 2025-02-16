@@ -14,5 +14,6 @@
     <include file="v1.0.0_06_create_table_goals.xml" relativeToChangelogFile="true"/>
     <include file="v1.0.0_07_add_column_category_substring.xml" relativeToChangelogFile="true"/>
     <include file="v1.0.0_08_add_column_is_created_by_user.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0.0_10_add_columns_to_table_transactions.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

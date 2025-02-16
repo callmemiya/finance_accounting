@@ -1,4 +1,4 @@
-import {getResource} from "../utils/axiosApi";
+import {getResource, postData} from "../utils/axiosApi";
 import {TransactionDto} from "../dto/TransactionDto";
 import {dateToServerString} from "../utils/dateUtils";
 
@@ -39,4 +39,11 @@ export default class TransactionService {
         });
     }
 
+    joinTransactions(transactionIds: number[], categoryId: number, description: string): Promise<void> {
+        return postData(TransactionService.BASE_URL + "/join", {
+            transactionIds,
+            categoryId,
+            description
+        });
+    }
 }

@@ -18,6 +18,10 @@ spring:
       date: iso
       date-time: iso
 
+jwt:
+  secret: your-256-bit-secret
+  expirationMs: 21600000  # 6 hours
+
 #server:
 #  servlet:
 #    context-path: /${spring.application.name}

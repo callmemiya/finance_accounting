@@ -1,5 +1,6 @@
 package ru.nirs.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +16,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table("users")
 public class User {
+
     @Id
     private Long id;
+
+    /** Имя пользователя */
     private String username;
+
+    /** Хеш пароля */
     private String passwordHash;
+
+    /** Электронная почта */
     private String email;
+
+    /** Технические дата и время создания (UTC) */
     private LocalDateTime created;
+
+    /** Технические дата и время изменения (UTC) */
     private LocalDateTime modified;
+
 } 

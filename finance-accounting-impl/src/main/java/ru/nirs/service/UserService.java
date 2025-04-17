@@ -38,9 +38,21 @@ public class UserService {
         return userDao.save(user);
     }
 
-    public User findByLogin(String login) {
-        return userDao.findByUsername(login)
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
+    }
+
+    public User login(String username, String password) {
+        // Находим пользователя по логину
+        User user = findByUsername(username);
+
+        // Проверяем пароль
+        if (!validatePassword(user, password)) {
+            throw new IllegalArgumentException("Неверный пароль");
+        }
+
+        return user;
     }
 
     public boolean validatePassword(User user, String password) {

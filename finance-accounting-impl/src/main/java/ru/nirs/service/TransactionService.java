@@ -12,7 +12,6 @@ import ru.nirs.entity.TransactionProjection;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,21 +39,28 @@ public class TransactionService {
     @Autowired
     private AccountDao accountDao;
 
-    public List<TransactionProjection> getAll(LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
-        return transactionDao.getAllProjections(dateFrom, dateTo, categoryId);
+    public List<TransactionProjection> getAll(Long userId, LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
+        var transactions = transactionDao.getAllProjections(userId, dateFrom, dateTo, categoryId);
+        return transactions;
     }
 
-    public List<TransactionProjection> getDischarges(LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
-        return transactionDao.getDischarges(dateFrom, dateTo, categoryId);
+    public List<TransactionProjection> getDischarges(Long userId, LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
+        return transactionDao.getAllProjectionsByUserId(userId, dateFrom, dateTo, categoryId)
+                .stream()
+                .filter(t -> t.getOperationAmount() < 0)
+                .collect(Collectors.toList());
     }
 
-    public List<TransactionProjection> getGains(LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
-        return transactionDao.getGains(dateFrom, dateTo, categoryId);
+    public List<TransactionProjection> getGains(Long userId, LocalDateTime dateFrom, LocalDateTime dateTo, Long categoryId) {
+        return transactionDao.getAllProjectionsByUserId(userId, dateFrom, dateTo, categoryId)
+                .stream()
+                .filter(t -> t.getOperationAmount() > 0)
+                .collect(Collectors.toList());
     }
 
-    public List<TransactionProjection> getSalaries(LocalDateTime dateFrom, LocalDateTime dateTo) {
+    public List<TransactionProjection> getSalaries(Long userId, LocalDateTime dateFrom, LocalDateTime dateTo) {
         var categoryId = categoryDao.getByCategoryName("Зарплата").orElseThrow().getId();
-        return transactionDao.getSalaries(dateFrom, dateTo, categoryId);
+        return transactionDao.getSalaries(userId, dateFrom, dateTo, categoryId);
     }
 
     public Long create(@Valid @NotNull Transaction entity) {

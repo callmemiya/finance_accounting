@@ -1,5 +1,6 @@
 package ru.nirs.controller.api.v1;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class BudgetController {
     private BudgetService budgetService;
 
     @GetMapping()
+    @Operation(summary = "Получение данных о бюджетах")
     public List<BudgetProjectionDto> getAll() {
         return BudgetMapper
                 .INSTANCE
@@ -34,16 +36,19 @@ public class BudgetController {
     }
 
     @PostMapping()
+    @Operation(summary = "Создание бюджета")
     public Long createBudget(@RequestBody BudgetDto budgetDto) {
         return budgetService.create(BudgetMapper.INSTANCE.toEntity(budgetDto));
     }
 
     @PutMapping()
+    @Operation(summary = "Обновление бюджета")
     public void updateBudget(@RequestBody BudgetDto budgetDto) {
         budgetService.update(BudgetMapper.INSTANCE.toEntity(budgetDto));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Получение данных о бюджете по уникальному идентификатору")
     public BudgetDto getById(@PathVariable @Parameter(description = "Идентификатор бюджета") Long id) {
         return BudgetMapper
                 .INSTANCE
